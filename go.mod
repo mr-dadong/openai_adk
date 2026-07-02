@@ -1,4 +1,4 @@
-module github.com/mr-dadong/openai-adk
+module github.com/mr-dadong/openai_adk
 
 go 1.26.3
 

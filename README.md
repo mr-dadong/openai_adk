@@ -1,4 +1,4 @@
-# openai-adk
+# openai_adk
 
 Google ADK 原生仅支持 Gemini 模型，无法直接对接 OpenAI 兼容 API（DeepSeek、硅基流动、智谱、Ollama 等）。本包作为适配层，将 OpenAI Chat Completions 协议（含 SSE 流式、function calling）转换为 ADK 标准的 `adkmodel.LLM` 接口，使 Agent 可无缝切换供应商，无需修改上层业务逻辑。
 
@@ -27,7 +27,7 @@ Google ADK 原生仅支持 Gemini 模型，无法直接对接 OpenAI 兼容 API�
 ## 安装
 
 ```bash
-go get github.com/mr-dadong/openai-adk
+go get github.com/mr-dadong/openai_adk
 ```
 
 ## 快速开始
@@ -43,16 +43,16 @@ import (
 	"log"
 	"os"
 
-	openaiadk "github.com/mr-dadong/openai-adk"
+	"github.com/mr-dadong/openai_adk"
 )
 
 func main() {
 	ctx := context.Background()
 
 	// 创建 DeepSeek 模型
-	model, err := openaiadk.NewModel(ctx, openaiadk.ClientConfig{
+	model, err := openai_adk.NewModel(ctx, openai_adk.ClientConfig{
 		Name:      "deepseek-chat",
-		Provider:  openaiadk.ProviderDeepseek,
+		Provider:  openai_adk.ProviderDeepseek,
 		ModelName: "deepseek-chat",
 		APIKey:    os.Getenv("DEEPSEEK_API_KEY"),
 	})
@@ -67,9 +67,9 @@ func main() {
 ### 使用硅基流动
 
 ```go
-model, err := openaiadk.NewModel(ctx, openaiadk.ClientConfig{
+model, err := openai_adk.NewModel(ctx, openai_adk.ClientConfig{
 	Name:      "siliconflow-deepseek",
-	Provider:  openaiadk.ProviderSiliconFlow,
+	Provider:  openai_adk.ProviderSiliconFlow,
 	ModelName: "deepseek-ai/DeepSeek-V3.2",
 	APIKey:    os.Getenv("SILICONFLOW_API_KEY"),
 })
@@ -79,9 +79,9 @@ model, err := openaiadk.NewModel(ctx, openaiadk.ClientConfig{
 
 ```go
 // Ollama 本地部署无需 API Key
-model, err := openaiadk.NewModel(ctx, openaiadk.ClientConfig{
+model, err := openai_adk.NewModel(ctx, openai_adk.ClientConfig{
 	Name:      "ollama-llama3",
-	Provider:  openaiadk.ProviderOllama,
+	Provider:  openai_adk.ProviderOllama,
 	ModelName: "llama3",
 	BaseURL:   "http://localhost:11434/v1", // 可选，有默认值
 })
@@ -90,9 +90,9 @@ model, err := openaiadk.NewModel(ctx, openaiadk.ClientConfig{
 ### 使用自定义 OpenAI 兼容接口
 
 ```go
-model, err := openaiadk.NewModel(ctx, openaiadk.ClientConfig{
+model, err := openai_adk.NewModel(ctx, openai_adk.ClientConfig{
 	Name:      "custom-model",
-	Provider:  openaiadk.ProviderOpenAICompatible,
+	Provider:  openai_adk.ProviderOpenAICompatible,
 	ModelName: "gpt-4",
 	BaseURL:   "https://your-api-endpoint.com/v1",
 	APIKey:    os.Getenv("CUSTOM_API_KEY"),
@@ -119,7 +119,7 @@ import (
 	"log"
 	"os"
 
-	openaiadk "github.com/mr-dadong/openai-adk"
+	"github.com/mr-dadong/openai_adk"
 	"google.golang.org/adk/agent/llmagent"
 	"google.golang.org/adk/tool"
 	"google.golang.org/adk/tool/functiontool"
@@ -138,9 +138,9 @@ func main() {
 	ctx := context.Background()
 
 	// 1. 创建 OpenAI 兼容模型（以 DeepSeek 为例）
-	model, err := openaiadk.NewModel(ctx, openaiadk.ClientConfig{
+	model, err := openai_adk.NewModel(ctx, openai_adk.ClientConfig{
 		Name:      "deepseek-chat",
-		Provider:  openaiadk.ProviderDeepseek,
+		Provider:  openai_adk.ProviderDeepseek,
 		ModelName: "deepseek-chat",
 		APIKey:    os.Getenv("DEEPSEEK_API_KEY"),
 	})
@@ -186,9 +186,9 @@ func main() {
 
 ```go
 // 创建硅基流动模型
-model, err := openaiadk.NewModel(ctx, openaiadk.ClientConfig{
+model, err := openai_adk.NewModel(ctx, openai_adk.ClientConfig{
 	Name:      "siliconflow-deepseek",
-	Provider:  openaiadk.ProviderSiliconFlow,
+	Provider:  openai_adk.ProviderSiliconFlow,
 	ModelName: "deepseek-ai/DeepSeek-V3.2",
 	APIKey:    os.Getenv("SILICONFLOW_API_KEY"),
 })
@@ -205,9 +205,9 @@ agent, err := llmagent.New(llmagent.Config{
 
 ```go
 // 创建本地 Ollama 模型（无需 API Key）
-model, err := openaiadk.NewModel(ctx, openaiadk.ClientConfig{
+model, err := openai_adk.NewModel(ctx, openai_adk.ClientConfig{
 	Name:      "ollama-agent",
-	Provider:  openaiadk.ProviderOllama,
+	Provider:  openai_adk.ProviderOllama,
 	ModelName: "llama3",
 })
 
@@ -241,9 +241,9 @@ type ClientConfig struct {
 启用调试模式可以查看请求和响应的详细信息：
 
 ```go
-model, err := openaiadk.NewModel(ctx, openaiadk.ClientConfig{
+model, err := openai_adk.NewModel(ctx, openai_adk.ClientConfig{
 	Name:      "debug-model",
-	Provider:  openaiadk.ProviderDeepseek,
+	Provider:  openai_adk.ProviderDeepseek,
 	ModelName: "deepseek-chat",
 	APIKey:    os.Getenv("DEEPSEEK_API_KEY"),
 	Debug:     true, // 启用调试日志
