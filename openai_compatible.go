@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	adkmodel "google.golang.org/adk/model"
+	adkmodel "google.golang.org/adk/v2/model"
 )
 
 // defaultHTTPTimeout 是 HTTP 客户端的默认超时时间（2分钟）。

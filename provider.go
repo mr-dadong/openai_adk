@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	adkmodel "google.golang.org/adk/model"
+	adkmodel "google.golang.org/adk/v2/model"
 )
 
 // ClientConfig 定义创建 LLM 客户端所需的配置参数。
